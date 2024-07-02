@@ -15,5 +15,5 @@ export const dummyTodoList: Todo[] = [
     id: 3,
     title: 'task3',
     completed: false,
-  }
+  },
 ];
