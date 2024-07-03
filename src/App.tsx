@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TodoList } from './components/TodoList';
 import { AddTodoForm } from './components/AddTodoForm';
 import { TodoSummary } from './components/TodoSummary';
-import { dummyTodoList } from './data/dummyTodoList';
+import { Todo } from './types/todo';
 
 function App() {
-  const [todoList, setTodoList] = useState(dummyTodoList);
+  const [todoList, setTodoList] = useState<Todo[]>(() => {
+    // ローカルストレージからTODOリストデータを取得
+    const localStorageTodoList = localStorage.getItem('todoList');
+    return JSON.parse(localStorageTodoList ?? '[]');
+  });
+
+  useEffect(() => {
+    // todoListの値が変更されたときにローカルストレージに保存する
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+  }, [todoList]);
 
   /**
    * チェック処理
