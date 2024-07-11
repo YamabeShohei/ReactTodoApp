@@ -37,15 +37,29 @@ export const useTodoList = () => {
    * @param title TODOタイトル
    */
   const addTodo = (title: string) => {
-    setTodoList((prevTodoList) => {
-      const newTodo = {
-        id: Date.now(),
-        title,
-        completed: false,
-      };
+    const newTodo = {
+      id: Date.now(),
+      title,
+      completed: false,
+    };
 
+    addTodoSubmit(newTodo);
+
+    setTodoList((prevTodoList) => {
       return [newTodo, ...prevTodoList];
     });
+  };
+
+  const addTodoSubmit = async (newTodo: Todo) => {
+    const response = await fetch('https://uo6oqzyw98.execute-api.ap-northeast-1.amazonaws.com/test/ReactTodoApp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTodo),
+    });
+
+    console.log(response.json());
   };
 
   const deleteTodo = (id: number) => {
